@@ -69,18 +69,25 @@ class Usuario{
         $password=$this->getPassword();
         $email=$this->getEmail();
         $rol=$this->getRol();
+        
         try {
-            $stm=$this->db->preparada("insert into usuarios (id,nombreUsuario,password,email,rol)values(:id,:nombreUsuario,:password,:email,:rol) ");
+            $stm=$this->db->preparada("insert into usuarios (id,nombreUsuario,password,email,rol)values(:id,:nombreUsuario,:password,:email,:rol)");
             $stm->bindValue(":id",$id);
             $stm->bindValue(":nombreUsuario",$nombreUsuario);
             $stm->bindValue(":password",$password);
             $stm->bindValue(":email",$email);
             $stm->bindValue(":rol",$rol);
+
             $stm->execute();
             $resultado=true;
+            
+            
         }catch (\PDOException $e){
             $resultado=false;
+
         }
+
+ 
         return $resultado;
     }
     public function update(){

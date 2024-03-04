@@ -25,6 +25,7 @@ class UsuarioController{
                 $login=$_POST['data'];
                 $usuario= Usuario::fromArray($login);
                 $identity=$usuario->login();
+
                 if($identity!=false && is_object($identity)){
                     $_SESSION['identity']=$identity;
                     if ($identity->rol == 'direccion'){
@@ -36,7 +37,7 @@ class UsuarioController{
         }else{
             $_SESSION['error_login']='identificacion fallida';
         }
-        $usuario->desconecta();
+        
 
         header("Location: " . BASE_URL);
     }
@@ -47,16 +48,18 @@ class UsuarioController{
                 
                 $registro['password']=password_hash($registro['password'],PASSWORD_BCRYPT);
                 $usuario=Usuario::fromArray($registro);
+                
                 $resultado=$usuario->create();
                 if ($resultado){
                     $_SESSION["register"]="complete";
                 }else{
-                    $_SESSION["register"]="failed";
+                    $_SESSION["register"]="failed1";
                 }
             }else{
-                $_SESSION["register"]="failed";
+                $_SESSION["register"]="failed2";
             }
-            header("Location:".BASE_URL."Usuario/login");
+
+            header("Location:".BASE_URL."Usuario/indetifica");
         }
         $this->pages->render("usuario/registro");
     }
